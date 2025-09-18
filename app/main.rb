@@ -5,7 +5,7 @@ while true
     command, *args = gets.chomp.split(" ")
 
     case command
-    when exit
+    when "exit"
         puts "#{exit} #{args[0]}"
     else
         puts "#{command}: command not found"        
