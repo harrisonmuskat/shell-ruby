@@ -13,7 +13,9 @@ while true
     case command
     when "type"
         if(BUILTINS.include? args[0])
-          puts "#{args[0]} is a shell builtin"
+            puts "#{args[0]} is a shell builtin"
+        else
+            puts "#{args[0]}: not found"
         end
     when "exit"
         puts "#{exit} #{args[0]}"
