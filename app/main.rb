@@ -7,7 +7,7 @@ while true
     case command
     when "exit"
         puts "#{exit} #{args[0]}"
-    when echo
+    when "echo"
         puts args.join(" ")
     else
         puts "#{command}: command not found"        
