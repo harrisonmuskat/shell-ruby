@@ -1,8 +1,7 @@
-# Uncomment this block to pass the first stage
-$stdout.write("$ ")
-
 while true
-  # Wait for user input
+    # Show the prompt
+    $stdout.write("$ ")
+    # Wait for user input
     command, *args = gets.chomp.split(" ")
 
     if command 
