@@ -4,6 +4,11 @@ BUILTINS = [
     "type"
 ]
 
+def command?(name)
+  `which #{name}`
+  $?.success?
+end
+
 while true
     # Show the prompt
     $stdout.write("$ ")
@@ -13,9 +18,13 @@ while true
     case command
     when "type"
         if(BUILTINS.include? args[0])
-            puts "#{args[0]} is a shell builtin"
+            puts "#{args[0]} is a shell builtin"            
         else
-            puts "#{args[0]}: not found"
+            if command?(args[0])
+                "#{args[0]} is " + `which #{args[0]}`.chomp
+            else
+                puts "#{args[0]}: not found"
+            end
         end
     when "exit"
         puts "#{exit} #{args[0]}"
