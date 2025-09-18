@@ -1,7 +1,8 @@
 BUILTINS = [
     'echo',
     'exit',
-    'type'
+    'type',
+    'pwd'
 ]
 
 def check_path(executable)
@@ -34,6 +35,8 @@ while true
         puts "#{exit} #{args[0]}"
     when 'echo'
         puts args.join(' ')
+    when 'pwd'
+        puts Dir.getwd
     else
         if(check_path(command))
             system(command, *args)
