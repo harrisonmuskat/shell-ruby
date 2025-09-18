@@ -40,7 +40,11 @@ while true
         puts Dir.getwd
     when 'cd'
         begin
-            Dir.chdir(args[0])
+            if args[0] == '~'
+                Dir.chdir(Dir.home)
+            else
+                Dir.chdir(args[0])
+            end
         rescue SystemCallError
             puts "cd: #{args[0]}: No such file or directory"
         end
