@@ -35,6 +35,10 @@ while true
     when 'echo'
         puts args.join(' ')
     else
-        puts "#{command}: command not found"     
+        if(check_path(command))
+            system(command, *args)
+        else
+            puts "#{command}: command not found"     
+        end
     end
 end
