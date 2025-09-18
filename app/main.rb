@@ -2,7 +2,8 @@ BUILTINS = [
     'echo',
     'exit',
     'type',
-    'pwd'
+    'pwd',
+    'cd'
 ]
 
 def check_path(executable)
@@ -37,6 +38,12 @@ while true
         puts args.join(' ')
     when 'pwd'
         puts Dir.getwd
+    when 'cd'
+        begin
+            Dir.chdir(args[0])
+        rescue SystemCallError
+            puts "cd: #{args[0]}: No such file or directory"
+        end
     else
         if(check_path(command))
             system(command, *args)
