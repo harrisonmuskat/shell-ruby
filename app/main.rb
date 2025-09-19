@@ -6,6 +6,29 @@ BUILTINS = [
     'cd'
 ]
 
+# This function allows the shell to handle quotation marks correctly
+# https://www.gnu.org/software/bash/manual/bash.html#Single-Quotes
+def split_args(input)
+  args = []
+  buf = ""
+  in_single = false
+
+  input.each_char do |ch|
+    if ch == "'" && !in_single
+      in_single = true
+    elsif ch == "'" && in_single
+      in_single = false
+    elsif ch == " " && !in_single
+      args << buf unless buf.empty?
+      buf = ""
+    else
+      buf << ch
+    end
+  end
+  args << buf unless buf.empty?
+  args
+end
+
 def check_path(executable)
     ENV['PATH'].split(File::PATH_SEPARATOR).each do |path|
       file = File.join(path, executable)
@@ -15,10 +38,9 @@ def check_path(executable)
 end
 
 while true
-    # Show the prompt
     $stdout.write('$ ')
-    # Wait for user input
-    command, *args = gets.chomp.split(' ')
+    input = gets.chomp
+    command, *args = split_args(input)
 
     case command
     when 'type'
