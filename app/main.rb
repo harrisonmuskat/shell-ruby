@@ -38,6 +38,7 @@ def check_path(executable)
 end
 
 while true
+    status = 0
     $stdout.write('$ ')
     input = gets.chomp
     command, *args = split_args(input)
@@ -50,31 +51,32 @@ while true
             result = check_path(args[0])
             if result
                 puts "#{args[0]} is #{result}"
-            else 
+            else
                 puts "#{args[0]}: not found"
+                status = 1
             end
         end
     when 'exit'
-        puts "#{exit} #{args[0]}"
+        code = args[0] ? args[0].to_i : status
+        Kernel.exit(code)
     when 'echo'
         puts args.join(' ')
     when 'pwd'
         puts Dir.getwd
     when 'cd'
         begin
-            if args[0] == '~'
-                Dir.chdir(Dir.home)
-            else
-                Dir.chdir(args[0])
-            end
+            Dir.chdir(args[0] || Dir.home)
         rescue SystemCallError
             puts "cd: #{args[0]}: No such file or directory"
+            status = 1
         end
     else
         if(check_path(command))
             system(command, *args)
+            status = $?.exitstatus
         else
-            puts "#{command}: command not found"     
+            warn "#{command}: command not found"
+            status = 127
         end
     end
 end
